@@ -12,6 +12,7 @@ import java.util.UUID;
 @RequestMapping("/api/v1/beer")
 @RestController
 public class BeerController {
+
     private final BeerService beerService;
 
     public BeerController(BeerService beerService) {
@@ -32,9 +33,15 @@ public class BeerController {
     }
 
     @PutMapping("/{beerId}")
-    public ResponseEntity <String> handleUpdate(@PathVariable("beerId") UUID beerId, BeerDto beerDto) {
+    public ResponseEntity <String> handleUpdate(@PathVariable("beerId") UUID beerId, @RequestBody  BeerDto beerDto) {
         beerService.updateBeer(beerId, beerDto);
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+    }
+
+    @DeleteMapping("/{beerId}")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    public void deleteBeer(@PathVariable("beerId") UUID beerId) {
+        beerService.deleteByBeerId(beerId);
     }
 }
 
